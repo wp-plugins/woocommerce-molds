@@ -16,12 +16,14 @@ For all users of the great Woocommerce plugin, this is a little tool to easily c
 You will retrieve every option existing in the product variations panel, and the configuration is the same.
 
 A mold is composed of :
+
 *   a name
 *   a product
 *   an attribute
 *   0 to X terms
 
 A mold can change variations values on :
+
 *   image
 *   "main image" option will replace a variation image if present, and fill those which don't have one
 *   Don't check it for filling variations without image only
@@ -48,7 +50,7 @@ A mold can change variations values on :
 *   download expiry (for downloadable only)
 
 
-=Using it=
+= Using it =
 
 1. Create all the variations wanted for a product, in the edit panel fo the product.
 It's an easy task, and there's even "linking all the variations" to automatically create every possible variation.
