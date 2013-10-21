@@ -8,12 +8,14 @@ Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Tired of manually configuring numerous product variations ? The Molds plugin is here to ease your work ! It can even do a little calculation on the prices.
+Tired of manually configuring numerous product variations ? The Molds plugin will ease your work ! It can even do a little calculation on the prices.
 
 == Description ==
 
 For all users of the great Woocommerce plugin, this is a little tool to easily configure many variations (no limit in number). 
 You will retrieve every option existing in the product variations panel, and the configuration is the same.
+
+French version of the plugin already included.
 
 A mold is composed of :
 
@@ -25,8 +27,7 @@ A mold is composed of :
 A mold can change variations values on :
 
 *   image
-*   "main image" option will replace a variation image if present, and fill those which don't have one
-*   Don't check it for filling variations without image only
+*   "main image" option will replace a variation image if present, and fill those which don't have one ( don't check it for filling variations without image only )
 *   SKU
 *   stock
 *   active (activate/deactivate)
@@ -37,10 +38,10 @@ A mold can change variations values on :
 *   "add to price" will add the number entered to current regular price
 *   "substract" will substract the number entered to current regular price
 *   "calculate in %" will do the chosen calculation using the number you entered as a % of the regular price
-*   e.g. "add" checked and "10" entered = "add 10% of variation regular price to variation regular price"
-*   sale price
-*   Exactly the same options as regular price
-*   "use as sale price", "add", "substract", "calculate in %"
+
+( e.g. "add" checked and "10" entered = "add 10% of variation regular price to variation regular price" )
+
+*   sale price ( exactly the same options as regular price => "use as sale price", "add", "substract", "calculate in %" )
 *   schedule
 *   weight
 *   dimensions
@@ -83,9 +84,10 @@ If you need to put all the prices to 0 for a fresh start you can still create a 
 == Installation ==
 
 Don't use this plugin if you don't have the Woocommerce plugin first, it won't work.
+
 1. Be sure you have the Woocommerce plugin active
-2. Upload the woocommerce-molds folder with all its content to the /wp-content/plugins/ directory
-3. Activate the plugin through the 'Plugins' menu in WordPress
+1. Upload the woocommerce-molds folder with all its content to the /wp-content/plugins/ directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
@@ -100,7 +102,7 @@ I'll be glad to improve the plugin if I can, let me know about your needs by pos
 
 == Changelog ==
 
-= 1.0 =
+= 0.1 =
 * Handles product variations only
 * Proposes price calculation options
 
