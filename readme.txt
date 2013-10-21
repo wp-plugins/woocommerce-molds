@@ -8,63 +8,73 @@ Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Tired of manually configuring numerous product variations ? The Molds plugin is here to ease your work ! It can even do a little calculation on the prices.
+Tired of manually configuring numerous product variations ? The Molds plugin will ease your work ! It can even do a little calculation on the prices.
 
 == Description ==
 
 For all users of the great Woocommerce plugin, this is a little tool to easily configure many variations (no limit in number). 
 You will retrieve every option existing in the product variations panel, and the configuration is the same.
 
+French version of the plugin already included.
+
 A mold is composed of :
-* a name
-* a product
-* an attribute
-* 0 to X terms
+
+*   a name
+*   a product
+*   an attribute
+*   0 to X terms
 
 A mold can change variations values on :
-* image
-"main image" option will replace a variation image if present, and fill those which don't have one
-Don't check it for filling variations without image only
-* SKU
-* stock
-* active (activate/deactivate)
-* downloadable (activate/deactivate)
-* virtual (activate/deactivate)
-* regular price
-"use as regular price" will replace current regular price
-"add to price" will add the number entered to current regular price
-"substract" will substract the number entered to current regular price
-"calculate in %" will do the chosen calculation using the number you entered as a % of the regular price
-e.g. "add" checked and "10" entered = "add 10% of variation regular price to variation regular price"
-* sale price
-Exactly the same options as regular price
-"use as sale price", "add", "substract", "calculate in %"
-* schedule
-* weight
-* dimensions
-* tax class
-* file paths (for downloadable only)
-* download limit (for downloadable only)
-* download expiry (for downloadable only)
+
+*   image
+*   "main image" option will replace a variation image if present, and fill those which don't have one ( don't check it for filling variations without image only )
+*   SKU
+*   stock
+*   active (activate/deactivate)
+*   downloadable (activate/deactivate)
+*   virtual (activate/deactivate)
+*   regular price
+*   "use as regular price" will replace current regular price
+*   "add to price" will add the number entered to current regular price
+*   "substract" will substract the number entered to current regular price
+*   "calculate in %" will do the chosen calculation using the number you entered as a % of the regular price
+
+( e.g. "add" checked and "10" entered = "add 10% of variation regular price to variation regular price" )
+
+*   sale price ( exactly the same options as regular price => "use as sale price", "add", "substract", "calculate in %" )
+*   schedule
+*   weight
+*   dimensions
+*   tax class
+*   file paths (for downloadable only)
+*   download limit (for downloadable only)
+*   download expiry (for downloadable only)
 
 
-=Using it=
+= Using it =
+
 1. Create all the variations wanted for a product, in the edit panel fo the product.
 It's an easy task, and there's even "linking all the variations" to automatically create every possible variation.
-2. Click on "Molds" which is under the Product menu.
-3. Create a new mold by clicking on the button "New Mold".
-4. First thing to do is to select the concerned product, then the attribute, and finally the terms.
+
+1. Click on "Molds" which is under the Product menu.
+
+1. Create a new mold by clicking on the button "New Mold".
+
+1. First thing to do is to select the concerned product, then the attribute, and finally the terms.
 If you don't select a term the mold will still be applied but only to the variations set on "any".
 You can also select "all" in the mold creation panel to apply the mold to every term *and* "any".
-5. Configure only the values that every variation of your "Product -> Attribute -> Terms" selection must have in common.
+
+1. Configure only the values that every variation of your "Product -> Attribute -> Terms" selection must have in common.
 e.g. You have "T-Shirt -> Colour -> Red" the red variations must have the photo of the red version, but won't have the same price which depends on the size.
 You create a mold, let's name it "Kid's Shirt : Red photo", you select "Kid's Shirt" product -> "Colour" attribute -> "Red" term.
 You select a photo for the red shirts, and save it.
-6. Now that your configuration is done, you can apply the mold by clicking on the empty "cupcake mold" icon on the right.
+
+1. Now that your configuration is done, you can apply the mold by clicking on the empty "cupcake mold" icon on the right.
 The mold is applied and feeds every "red" variation with the photo.
 You're done ! You can click on the product name appearing in the mold's line, in the admin list, to go see your product variations in the edit panel.
 
 *Recommandations:*
+
 Molds can be applied one after another on the same variations without any problem, just be careful to add/substract something to the price in the logical order, because it can be tricky.
 When you edit a mold, it's automatically unapplied, so be careful if you have many molds in use for the same product, I recommend unapplying them all, changing what needs to be changed, and applying them again in the right order.
 Options or pricing crushing each other is never pleasant, and with percentages you can have surprising results !
@@ -74,9 +84,10 @@ If you need to put all the prices to 0 for a fresh start you can still create a 
 == Installation ==
 
 Don't use this plugin if you don't have the Woocommerce plugin first, it won't work.
+
 1. Be sure you have the Woocommerce plugin active
-2. Upload the woocommerce-molds folder with all its content to the /wp-content/plugins/ directory
-3. Activate the plugin through the 'Plugins' menu in WordPress
+1. Upload the woocommerce-molds folder with all its content to the /wp-content/plugins/ directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
@@ -91,7 +102,7 @@ I'll be glad to improve the plugin if I can, let me know about your needs by pos
 
 == Changelog ==
 
-= 1.0 =
+= 0.1 =
 * Handles product variations only
 * Proposes price calculation options
 
