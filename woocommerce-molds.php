@@ -3,7 +3,7 @@
 Plugin Name: Woocommerce Molds
 Plugin URI: http://wordpress.org/#
 Description: This plugin ease your work when it comes to using variable products with Woocommerce. Instead of manually configuring values and options for each and every variations and attributes combination you need, you just have to create in the product panel the variations for each attribute, and then create a mold to configure everything. With molds you can even add or substract an amount to the price (you can do it in % if needed), to precisely price the variations.
-Version: 0.1
+Version: 1.1
 Author: Melina Donati
 Author URI: http://donati.melina.perso.sfr.fr/
 * Text Domain: easyclasses
