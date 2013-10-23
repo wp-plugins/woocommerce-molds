@@ -4,7 +4,7 @@ Donate link:
 Tags: woo, woocommerce, e-commerce, shop, woothemes, automatically, product, products, variation, variations
 Requires at least: 3.0.1
 Tested up to: 3.6.1
-Stable tag: 1.0
+Stable tag: 0.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,9 +102,17 @@ I'll be glad to improve the plugin if I can, let me know about your needs by pos
 
 == Changelog ==
 
+= 0.2 =
+
+Corrects plugin files encoding to UTF8 - no BOM
+
 = 0.1 =
+
 * Handles product variations only
 * Proposes price calculation options
 
 == Upgrade Notice ==
 
+= 0.2 =
+
+Upgrade if you're getting a "Warning: Cannot modify header..." on your website
