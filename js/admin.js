@@ -1,4 +1,4 @@
-﻿// LAUNCH 
+// LAUNCH 
 function selectProduct() {
 	var list = document.getElementById("products").value;
 }
