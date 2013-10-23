@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	// Important: Check if the file is the one
     // that was registered during the uninstall hook.
 	if ( !defined( 'WP_UNINSTALL_PLUGIN' ) )

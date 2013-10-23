@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 Plugin Name: Woocommerce Molds
 Plugin URI: http://wordpress.org/#
