@@ -13,11 +13,11 @@
 	
 	// UNAPPLYING ALL THE MOLDS
 	$mold = new WC_Molds();
-	$molds = $wpdb->get_results('SELECT meta_id FROM wp_postmeta WHERE meta_key = "_mold"');
+	$molds = $wpdb->get_results('SELECT meta_id FROM '.$wpdb->prefix.'postmeta WHERE meta_key = "_mold"');
 	foreach($molds as $mold) {
 		$mold->pm_load_from_db($mold->meta_id);
 		$mold->pm_unapply_mold();
 	}
 	// DELETING ALL THE MOLDS
-	$wpdb->query('DELETE FROM wp_postmeta WHERE meta_key = "_mold"');
+	$wpdb->query('DELETE FROM '.$wpdb->prefix.'postmeta WHERE meta_key = "_mold"');
 	
