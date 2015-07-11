@@ -3,7 +3,7 @@
 Plugin Name: Woocommerce Molds
 Plugin URI: http://wordpress.org/#
 Description: This plugin ease your work when it comes to using variable products with Woocommerce. Instead of manually configuring values and options for each and every variations and attributes combination you need, you just have to create in the product panel the variations for each attribute, and then create a mold to configure everything. With molds you can even add or substract an amount to the price (you can do it in % if needed), to precisely price the variations.
-Version: 0.1
+Version: 0.2
 Author: Melina Donati
 Author URI: http://donati.melina.perso.sfr.fr/
 * Text Domain: easyclasses
@@ -158,7 +158,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 	##/////////////////##
 	function remove_mold($mold_id) {
 		global $wpdb;
-		$molds = $wpdb->query( $wpdb->prepare("DELETE FROM wp_postmeta WHERE meta_id = %d",$mold_id));
+		$molds = $wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix."postmeta WHERE meta_id = %d",$mold_id));
 		if($molds!=false) {
 			?><div id="message" class="updated below-h2"><p style="color:darkOrange;"><?php _e( 'Deleted.', 'woocommerce-molds' ); ?></p></div><?php
 		}
@@ -1018,7 +1018,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				
 				if($id!=0) {
 					$result = $wpdb->update(
-						'wp_postmeta',
+						$wpdb->prefix.'postmeta',
 						array(
 							'post_id' => $this->product_id,
 							'meta_key' => '_mold',
@@ -1039,7 +1039,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 					);
 				} else {
 					$result = $wpdb->insert(
-						'wp_postmeta',
+						$wpdb->prefix.'postmeta',
 						array(
 							'post_id' => $this->product_id,
 							'meta_key' => '_mold',
@@ -1069,7 +1069,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 			public function pm_load_from_db($id) {
 				
 				global $wpdb;
-				$data = $wpdb->get_results($wpdb->prepare("SELECT * FROM wp_postmeta WHERE meta_id = %d", $id));
+				$data = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."postmeta WHERE meta_id = %d", $id));
 				
 				$this->mold_id = $data[0]->meta_id;
 				$this->product_id = $data[0]->post_id;
@@ -1158,7 +1158,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				
 				// CHECKING IF THE VARIATION ALREADY HAS AN IMAGE
 				$variation_image = $wpdb->get_var($wpdb->prepare(
-					"SELECT meta_value FROM wp_postmeta WHERE meta_key = '_thumbnail_id' AND post_id = %d",
+					"SELECT meta_value FROM ".$wpdb->prefix."postmeta WHERE meta_key = '_thumbnail_id' AND post_id = %d",
 					$variation_id
 				));
 				
@@ -1170,11 +1170,11 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 						// IMAGE ATTACHMENT //
 						// Get the image id
 						$image_id = $wpdb->get_var($wpdb->prepare(
-							"SELECT ID FROM wp_posts WHERE guid = %s",
+							"SELECT ID FROM ".$wpdb->prefix."posts WHERE guid = %s",
 							$this->mold_image
 						));
 						// Update its parent post, now it is the variation id
-						$result += $wpdb->update('wp_posts',array('post_parent' => '%d'),array('ID' => '%d'),array($this->product_id),array($image_id));
+						$result += $wpdb->update($wpdb->prefix.'posts',array('post_parent' => '%d'),array('ID' => '%d'),array($this->product_id),array($image_id));
 						// Update the variation meta, giving it the image id
 						$result += $this->pm_update_meta_value($variation_id,'_thumbnail_id',$image_id);
 						/////////////////////
@@ -1186,11 +1186,11 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 							// IMAGE ATTACHMENT //
 							// Get the image id
 							$image_id = $wpdb->get_var($wpdb->prepare(
-								"SELECT ID FROM wp_posts WHERE guid = %s",
+								"SELECT ID FROM ".$wpdb->prefix."posts WHERE guid = %s",
 								$this->mold_image
 							));
 							// Update its parent post, now it is the variation id
-							$result += $wpdb->update('wp_posts',array('post_parent' => '%d'),array('ID' => '%d'),array($this->product_id),array($image_id));
+							$result += $wpdb->update($wpdb->prefix.'posts',array('post_parent' => '%d'),array('ID' => '%d'),array($this->product_id),array($image_id));
 							// Update the variation meta, giving it the image id
 							$result += $this->pm_update_meta_value($variation_id,'_thumbnail_id',$image_id);
 							/////////////////////
@@ -1201,12 +1201,12 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				// IS ACTIVE
 				if($this->mold_is_active=="yes") {
 					$result += $wpdb->query($wpdb->prepare(
-						'UPDATE wp_posts SET post_status = "publish" WHERE ID = %d',
+						'UPDATE ".$wpdb->prefix."posts SET post_status = "publish" WHERE ID = %d',
 						$variation_id
 					));
 				} else if($this->mold_is_active=="not") {
 					$result += $wpdb->query($wpdb->prepare(
-						'UPDATE wp_posts SET post_status = "private" WHERE ID = %d',
+						'UPDATE ".$wpdb->prefix."posts SET post_status = "private" WHERE ID = %d',
 						$variation_id
 					));
 				}
@@ -1405,7 +1405,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 			protected function pm_select_meta_value($id,$key) {
 				global $wpdb;
 				$result = $wpdb->get_var($wpdb->prepare(
-						'SELECT meta_value FROM wp_postmeta WHERE post_id = %d AND meta_key = %s',
+						'SELECT meta_value FROM '.$wpdb->prefix.'postmeta WHERE post_id = %d AND meta_key = %s',
 						$id,$key
 					)			
 				);
@@ -1434,7 +1434,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				$slug_terms = array();
 				foreach($mold_terms as $term) {
 					$slug = $wpdb->get_var($wpdb->prepare(
-						"SELECT slug FROM wp_terms WHERE name = %s",
+						"SELECT slug FROM ".$wpdb->prefix."terms WHERE name = %s",
 						$term
 					));
 					$slug_terms[] = $slug;
@@ -1443,7 +1443,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				
 				## FIND VARIATIONS
 				// We select the IDs of children variations of product_id, that are using mold_attribute and one or several of the mold_terms
-				$query = "SELECT post_id FROM wp_postmeta WHERE meta_key = '".$attribute."' AND meta_value IN (".$terms.") AND post_id IN (SELECT ID FROM wp_posts WHERE post_type = 'product_variation' AND post_parent = ".$this->product_id.")";
+				$query = "SELECT post_id FROM ".$wpdb->prefix."postmeta WHERE meta_key = '".$attribute."' AND meta_value IN (".$terms.") AND post_id IN (SELECT ID FROM ".$wpdb->prefix."posts WHERE post_type = 'product_variation' AND post_parent = ".$this->product_id.")";
 				$product_variations = $wpdb->get_results($query);
 			
 			// ANY VARIATION CONCERNED BY THE ATTRIBUTE
@@ -1451,7 +1451,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 			
 				## FIND VARIATIONS
 				// We select the IDs of children variations of product_id, that are using mold_attribute and one or several of the mold_terms
-				$query = "SELECT post_id FROM wp_postmeta WHERE meta_key = '".$attribute."' AND post_id IN (SELECT ID FROM wp_posts WHERE post_type = 'product_variation' AND post_parent = ".$this->product_id.")";
+				$query = "SELECT post_id FROM ".$wpdb->prefix."postmeta WHERE meta_key = '".$attribute."' AND post_id IN (SELECT ID FROM ".$wpdb->prefix."posts WHERE post_type = 'product_variation' AND post_parent = ".$this->product_id.")";
 				$product_variations = $wpdb->get_results($query);
 				
 			}
@@ -1485,7 +1485,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 					$old_regular_prices = serialize($this->old_regular);
 					$old_sale_prices = serialize($this->old_sale);
 					$wpdb->replace( 
-						'wp_postmeta', 
+						$wpdb->prefix.'postmeta', 
 						array( 
 							'post_id' => $this->mold_id,
 							'meta_key' => 'old_regular_prices', 
@@ -1498,7 +1498,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 						) 
 					);
 					$wpdb->replace( 
-						'wp_postmeta', 
+						$wpdb->prefix.'postmeta', 
 						array( 
 							'post_id' => $this->mold_id,
 							'meta_key' => 'old_sale_prices', 
@@ -1563,7 +1563,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				
 				// CHECKING IF THE VARIATION ALREADY HAS AN IMAGE
 				$variation_image = $wpdb->get_var($wpdb->prepare(
-					"SELECT meta_value FROM wp_postmeta WHERE meta_key = '_thumbnail_id' AND post_id = %d",
+					"SELECT meta_value FROM ".$wpdb->prefix."postmeta WHERE meta_key = '_thumbnail_id' AND post_id = %d",
 					$variation_id
 				));
 				
@@ -1572,13 +1572,13 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				
 					// Check variation image is mold image or not
 					$guid = $wpdb->get_var($wpdb->prepare(
-						"SELECT guid FROM wp_posts WHERE post_type = 'attachment' AND ID = %d",
+						"SELECT guid FROM ".$wpdb->prefix."posts WHERE post_type = 'attachment' AND ID = %d",
 						$variation_image
 					));
 					// If this image is the same as the mold's one we delete it
 					if($guid==$this->mold_image) {
 						// Reset image post_parent to zero
-						$result += $wpdb->update('wp_posts',array('post_parent' => '%d'),array('ID' => '%d'),array(0),array($variation_image));
+						$result += $wpdb->update($wpdb->prefix.'posts',array('post_parent' => '%d'),array('ID' => '%d'),array(0),array($variation_image));
 						// Nullify thumbnail id
 						$result += $this->pm_update_meta_value($variation_id,'_thumbnail_id',null);
 					}
@@ -1588,13 +1588,13 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				// IS ACTIVE
 				if($this->mold_is_active=="yes") {
 					$result += $wpdb->query($wpdb->prepare(
-						'UPDATE wp_posts SET post_status = "private" WHERE ID = %d',
+						'UPDATE ".$wpdb->prefix."posts SET post_status = "private" WHERE ID = %d',
 						$variation_id
 					));
 				} else if($this->mold_is_active=="no") {
 					if($reverse) {
 						$result += $wpdb->query($wpdb->prepare(
-							'UPDATE wp_posts SET post_status = "publish" WHERE ID = %d',
+							'UPDATE ".$wpdb->prefix."posts SET post_status = "publish" WHERE ID = %d',
 							$variation_id
 						));
 					}
@@ -1669,8 +1669,8 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				}
 				
 				// DELETING OLD PRICE DATA //
-				$wpdb->delete( 'wp_postmeta', array( 'post_id' => $this->mold_id, 'meta_key' => 'old_regular_prices' ), array( '%d', '%s' ) );
-				$wpdb->delete( 'wp_postmeta', array( 'post_id' => $this->mold_id, 'meta_key' => 'old_sale_prices' ), array( '%d', '%s' ) );
+				$wpdb->delete( $wpdb->prefix.'postmeta', array( 'post_id' => $this->mold_id, 'meta_key' => 'old_regular_prices' ), array( '%d', '%s' ) );
+				$wpdb->delete( $wpdb->prefix.'postmeta', array( 'post_id' => $this->mold_id, 'meta_key' => 'old_sale_prices' ), array( '%d', '%s' ) );
 				
 				// SALE PRICE DATES FROM
 				if(!empty($this->mold_sale_price_dates_from)&&($this->mold_sale_price_dates_from==$this->pm_select_meta_value($variation_id,'_sale_price_dates_from'))) {
@@ -1729,7 +1729,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 					$slug_terms = array();
 					foreach($mold_terms as $term) {
 						$slug = $wpdb->get_var($wpdb->prepare(
-							"SELECT slug FROM wp_terms WHERE name = %s",
+							"SELECT slug FROM ".$wpdb->prefix."terms WHERE name = %s",
 							$term
 						));
 						$slug_terms[] = $slug;
@@ -1738,7 +1738,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 					
 					## FIND VARIATIONS
 					// We select the IDs of children variations of product_id, that are using mold_attribute and one or several of the mold_terms
-					$query = "SELECT post_id FROM wp_postmeta WHERE meta_key = '".$attribute."' AND meta_value IN (".$terms.") AND post_id IN (SELECT ID FROM wp_posts WHERE post_type = 'product_variation' AND post_parent = ".$this->product_id.")";
+					$query = "SELECT post_id FROM ".$wpdb->prefix."postmeta WHERE meta_key = '".$attribute."' AND meta_value IN (".$terms.") AND post_id IN (SELECT ID FROM ".$wpdb->prefix."posts WHERE post_type = 'product_variation' AND post_parent = ".$this->product_id.")";
 					$product_variations = $wpdb->get_results($query);
 				
 				// ANY VARIATION CONCERNED BY THE ATTRIBUTE
@@ -1746,7 +1746,7 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				
 					## FIND VARIATIONS
 					// We select the IDs of children variations of product_id, that are using mold_attribute and one or several of the mold_terms
-					$query = "SELECT post_id FROM wp_postmeta WHERE meta_key = '".$attribute."' AND post_id IN (SELECT ID FROM wp_posts WHERE post_type = 'product_variation' AND post_parent = ".$this->product_id.")";
+					$query = "SELECT post_id FROM ".$wpdb->prefix."postmeta WHERE meta_key = '".$attribute."' AND post_id IN (SELECT ID FROM ".$wpdb->prefix."posts WHERE post_type = 'product_variation' AND post_parent = ".$this->product_id.")";
 					$product_variations = $wpdb->get_results($query);
 					
 				}
@@ -1756,14 +1756,14 @@ if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_o
 				
 					// LOADING THE OLD PRICES //
 					$old_regular = $wpdb->get_var($wpdb->prepare(
-							"SELECT meta_value FROM wp_postmeta WHERE post_id = %d AND meta_key = %s",
+							"SELECT meta_value FROM ".$wpdb->prefix."postmeta WHERE post_id = %d AND meta_key = %s",
 							$this->mold_id, 'old_regular_prices'
 						));
 					if(!empty($old_regular)) {
 						$this->old_regular = unserialize($old_regular);
 					}
 					$old_sale = $wpdb->get_var($wpdb->prepare(
-							"SELECT meta_value FROM wp_postmeta WHERE post_id = %d AND meta_key = %s",
+							"SELECT meta_value FROM ".$wpdb->prefix."postmeta WHERE post_id = %d AND meta_key = %s",
 							$this->mold_id, 'old_sale_prices'
 						));
 					if(!empty($old_sale)) {

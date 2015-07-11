@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: melinadonati
-Donate link: 
+Donate link: http://www.melinadonati.fr
 Tags: woo, woocommerce, e-commerce, shop, woothemes, automatically, product, products, variation, variations
 Requires at least: 3.0.1
-Tested up to: 3.6.1
-Stable tag: 1.0
+Tested up to: 4.2.2
+Stable tag: 0.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,8 @@ You select a photo for the red shirts, and save it.
 The mold is applied and feeds every "red" variation with the photo.
 You're done ! You can click on the product name appearing in the mold's line, in the admin list, to go see your product variations in the edit panel.
 
+1. To see your changes, edit your product and just save it. Go to your shop: shazam !
+
 *Recommandations:*
 
 Molds can be applied one after another on the same variations without any problem, just be careful to add/substract something to the price in the logical order, because it can be tricky.
@@ -102,9 +104,26 @@ I'll be glad to improve the plugin if I can, let me know about your needs by pos
 
 == Changelog ==
 
+= 0.3 =
+
+Takes account of databases with prefixes other than "wp_"
+Works with Wordpress v4.2.2 (july 2015)
+
+= 0.2 =
+
+Corrects plugin files encoding to UTF8 - no BOM
+
 = 0.1 =
+
 * Handles product variations only
 * Proposes price calculation options
 
 == Upgrade Notice ==
 
+= 0.2 =
+
+Upgrade if you're getting a "Warning: Cannot modify header..." on your website
+
+= 0.3 =
+
+Upgrade if you're getting a query or database error when editing / creating a mold

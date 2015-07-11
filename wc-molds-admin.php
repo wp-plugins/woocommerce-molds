@@ -278,7 +278,7 @@ if (!current_user_can('manage_options'))
 						<?php global $wpdb;
 						
 						// We connect to the DB to get the products
-						$query = "SELECT ID, post_title FROM wp_posts WHERE post_type = 'product'";
+						$query = "SELECT ID, post_title FROM ".$wpdb->prefix."posts WHERE post_type = 'product'";
 						$rows = $wpdb->get_results($query);
 						
 						// Check for errors
@@ -339,7 +339,7 @@ if (!current_user_can('manage_options'))
 						global $wpdb;
 						
 						// We connect to the DB to get the attributes
-						$rows = $wpdb->get_results($wpdb->prepare("SELECT meta_value FROM wp_postmeta WHERE meta_key = '_product_attributes' AND post_id = '%d'",$the_id));
+						$rows = $wpdb->get_results($wpdb->prepare("SELECT meta_value FROM ".$wpdb->prefix."postmeta WHERE meta_key = '_product_attributes' AND post_id = '%d'",$the_id));
 						
 						// Check for errors
 						if (!$rows) {
@@ -379,7 +379,7 @@ if (!current_user_can('manage_options'))
 							
 							// We connect to the DB to get the terms
 							$attribute_name = "order_".$the_attribute;
-							$rows = $wpdb->get_results($wpdb->prepare("SELECT name FROM wp_terms WHERE term_id IN ( SELECT woocommerce_term_id FROM wp_woocommerce_termmeta WHERE meta_key = '%s')",$attribute_name));
+							$rows = $wpdb->get_results($wpdb->prepare("SELECT name FROM ".$wpdb->prefix."terms WHERE term_id IN ( SELECT woocommerce_term_id FROM ".$wpdb->prefix."woocommerce_termmeta WHERE meta_key = '%s')",$attribute_name));
 							
 							## ALL CHECKED FLAG ##
 							$all = false;
